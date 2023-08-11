@@ -1,0 +1,33 @@
+import tkinter as tk
+from forex_python.converter import CurrencyRates
+
+def convert_currency():
+    from_curr = from_var.get()
+    to_curr = to_var.get()
+    amount = float(amount_entry.get())
+    converted_amount = c.convert(from_curr, to_curr, amount)    
+    result_label.config(text=f"Converted Amount: {converted_amount:.2f} {to_curr}")
+
+root = tk.Tk()
+root.title("Currency Converter")
+from_label = tk.Label(root, text="From Currency:")
+to_label = tk.Label(root, text="To Currency:")
+amount_label = tk.Label(root, text="Amount:")
+result_label = tk.Label(root, text="Result:")
+from_label.pack()
+to_label.pack()
+c = CurrencyRates()
+currencies = c.get_rates("").keys()
+from_var = tk.StringVar()
+from_currency = tk.OptionMenu(root, from_var, *currencies)
+from_currency.pack()
+to_var = tk.StringVar()
+to_currency = tk.OptionMenu(root, to_var, *currencies)
+to_currency.pack()
+amount_entry = tk.Entry(root)
+amount_label.pack()
+amount_entry.pack()
+convert_button = tk.Button(root, text="Convert", command=convert_currency)
+convert_button.pack()
+result_label.pack()
+root.mainloop()
